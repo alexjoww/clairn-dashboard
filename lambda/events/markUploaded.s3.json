@@ -1,0 +1,38 @@
+{
+  "Records": [
+    {
+      "eventVersion": "2.1",
+      "eventSource": "aws:s3",
+      "awsRegion": "us-east-1",
+      "eventTime": "2026-09-16T12:00:05.000Z",
+      "eventName": "ObjectCreated:Post",
+      "userIdentity": {
+        "principalId": "AWS:AIDAEXAMPLEPRINCIPAL"
+      },
+      "requestParameters": {
+        "sourceIPAddress": "203.0.113.10"
+      },
+      "responseElements": {
+        "x-amz-request-id": "C3D13FE58DE4C810",
+        "x-amz-id-2": "FMyUVURIY8/IgAtTv8xRjskZQpcIZ9KG4V5Wp6S7S/JRWeUWerMUE5JgHvANOjpD"
+      },
+      "s3": {
+        "s3SchemaVersion": "1.0",
+        "configurationId": "markUploaded",
+        "bucket": {
+          "name": "clairn-documents",
+          "ownerIdentity": {
+            "principalId": "A3NL1KOZZKExample"
+          },
+          "arn": "arn:aws:s3:::clairn-documents"
+        },
+        "object": {
+          "key": "users/3f9d2c5e-1a2b-4c3d-9e8f-123456789abc/8d4c1b2a-6e5f-4a7b-9c8d-0e1f2a3b4c5d/Security+Questionnaire+2026.pdf",
+          "size": 48213,
+          "eTag": "d41d8cd98f00b204e9800998ecf8427e",
+          "sequencer": "0055AED6DCD90281E5"
+        }
+      }
+    }
+  ]
+}

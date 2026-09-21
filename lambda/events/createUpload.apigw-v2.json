@@ -1,0 +1,51 @@
+{
+  "version": "2.0",
+  "routeKey": "POST /documents",
+  "rawPath": "/documents",
+  "rawQueryString": "",
+  "headers": {
+    "accept": "application/json",
+    "authorization": "eyJraWQiOiJleGFtcGxlIn0.eyJzdWIiOiIzZjlkMmM1ZS0xYTJiLTRjM2QtOWU4Zi0xMjM0NTY3ODlhYmMifQ.c2lnbmF0dXJl",
+    "content-type": "application/json",
+    "host": "abc123.execute-api.us-east-1.amazonaws.com",
+    "user-agent": "Mozilla/5.0"
+  },
+  "requestContext": {
+    "accountId": "123456789012",
+    "apiId": "abc123",
+    "authorizer": {
+      "jwt": {
+        "claims": {
+          "sub": "3f9d2c5e-1a2b-4c3d-9e8f-123456789abc",
+          "email": "user@example.com",
+          "email_verified": "true",
+          "given_name": "Test",
+          "cognito:username": "3f9d2c5e-1a2b-4c3d-9e8f-123456789abc",
+          "token_use": "id",
+          "aud": "1h57kf5cpq17m0eml12EXAMPLE",
+          "iss": "https://cognito-idp.us-east-1.amazonaws.com/us-east-1_EXAMPLE",
+          "auth_time": "1789560000",
+          "iat": "1789560000",
+          "exp": "1789563600"
+        },
+        "scopes": null
+      }
+    },
+    "domainName": "abc123.execute-api.us-east-1.amazonaws.com",
+    "domainPrefix": "abc123",
+    "http": {
+      "method": "POST",
+      "path": "/documents",
+      "protocol": "HTTP/1.1",
+      "sourceIp": "203.0.113.10",
+      "userAgent": "Mozilla/5.0"
+    },
+    "requestId": "JKJaXmPLvHcESHA=",
+    "routeKey": "POST /documents",
+    "stage": "$default",
+    "time": "16/Sep/2026:12:00:00 +0000",
+    "timeEpoch": 1789560000000
+  },
+  "body": "{\"filename\":\"Security Questionnaire 2026.pdf\",\"contentType\":\"application/pdf\",\"sizeBytes\":48213}",
+  "isBase64Encoded": false
+}
