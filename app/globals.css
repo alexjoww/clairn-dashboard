@@ -92,6 +92,15 @@ body {
   background: var(--accent-hover);
 }
 
+.button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.button:disabled:hover {
+  background: var(--accent);
+}
+
 .buttonBlock {
   width: 100%;
   padding: 0.6875rem 1.125rem;
@@ -206,6 +215,8 @@ body {
 
 .dashboardMain {
   min-height: 100vh;
+  /* Top padding clears the fixed nav toggle. */
+  padding: 4.5rem 2rem 4rem;
 }
 
 .dashboardToggle {
@@ -292,6 +303,15 @@ body {
   background: var(--background);
 }
 
+.dashboardNavItemActive {
+  background: var(--notice-surface);
+  color: var(--accent);
+}
+
+.dashboardNavItemActive:hover {
+  background: var(--notice-surface);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .dashboardPanel,
   .dashboardBackdrop {
@@ -345,4 +365,144 @@ body {
 .notice {
   background: var(--notice-surface);
   color: var(--notice);
+}
+
+/* Documents */
+
+.documents {
+  max-width: 40rem;
+  margin: 0 auto;
+}
+
+.documents h1 {
+  margin: 0 0 0.5rem;
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.documentsIntro {
+  margin: 0 0 1.5rem;
+  color: var(--text-muted);
+  font-size: 0.9375rem;
+}
+
+/* Hidden visually but still reachable by keyboard and screen readers. */
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.dropzone {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 2.25rem 1.5rem;
+  border: 1.5px dashed color-mix(in srgb, var(--text-muted) 45%, var(--border));
+  border-radius: 10px;
+  background: var(--surface);
+  text-align: center;
+  cursor: pointer;
+}
+
+.dropzone:hover,
+.dropzoneActive {
+  border-color: var(--accent);
+  background: var(--notice-surface);
+}
+
+.dropzone:focus-within {
+  border-color: var(--accent);
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.dropzoneDisabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.dropzoneTitle {
+  font-size: 0.9375rem;
+  font-weight: 500;
+  overflow-wrap: anywhere;
+}
+
+.dropzoneHint {
+  color: var(--text-muted);
+  font-size: 0.875rem;
+}
+
+.uploadActions {
+  margin-top: 1rem;
+}
+
+.uploadStatus {
+  margin: 1.25rem 0 0;
+  color: var(--text-muted);
+  font-size: 0.875rem;
+}
+
+.error a {
+  color: inherit;
+  font-weight: 500;
+}
+
+.uploadListHeading {
+  margin: 2.5rem 0 0.75rem;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.uploadListEmpty {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.875rem;
+}
+
+.uploadList {
+  margin: 0;
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--surface);
+  list-style: none;
+}
+
+.uploadListItem {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.75rem 1rem;
+  font-size: 0.9375rem;
+}
+
+.uploadListItem + .uploadListItem {
+  border-top: 1px solid var(--border);
+}
+
+.uploadListName {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.uploadListMeta {
+  flex-shrink: 0;
+  color: var(--text-muted);
+  font-size: 0.875rem;
+}
+
+@media (max-width: 600px) {
+  .dashboardMain {
+    padding: 4.5rem 1.25rem 3rem;
+  }
 }

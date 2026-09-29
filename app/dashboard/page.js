@@ -2,11 +2,14 @@
 
 import { useEffect, useState } from 'react';
 import RequireAuth from '@/components/RequireAuth';
+import DocumentUpload from '@/components/DocumentUpload';
 
 const PANEL_ID = 'dashboard-nav';
 
 export default function DashboardPage() {
   const [open, setOpen] = useState(false);
+  // Which tab is showing. Documents is the only one so far.
+  const [view, setView] = useState('documents');
 
   useEffect(() => {
     if (!open) return;
@@ -46,13 +49,23 @@ export default function DashboardPage() {
         inert={!open}
       >
         <nav className="dashboardNav">
-          <button type="button" className="dashboardNavItem" onClick={() => {}}>
+          <button
+            type="button"
+            className={`dashboardNavItem${view === 'documents' ? ' dashboardNavItemActive' : ''}`}
+            aria-current={view === 'documents' ? 'page' : undefined}
+            onClick={() => {
+              setView('documents');
+              setOpen(false);
+            }}
+          >
             Documents
           </button>
         </nav>
       </aside>
 
-      <main className="dashboardMain" />
+      <main className="dashboardMain">
+        {view === 'documents' && <DocumentUpload />}
+      </main>
     </RequireAuth>
   );
 }
