@@ -16,7 +16,7 @@ export default function RequireAuth({ children }) {
         setStatus('authed');
       } else {
         setStatus('anon');
-        router.replace('/signin');
+        router.replace('/');
       }
     });
     return () => { cancelled = true; };

@@ -97,9 +97,9 @@ export default function DocumentUpload() {
   }
 
   return (
-    <section className="documents" aria-labelledby="documents-heading">
+    <section className="view" aria-labelledby="documents-heading">
       <h1 id="documents-heading">Documents</h1>
-      <p className="documentsIntro">
+      <p className="viewIntro">
         Upload your security documentation: policies, past questionnaires, SOC
         2 reports, architecture docs.
       </p>
@@ -157,7 +157,7 @@ export default function DocumentUpload() {
           {signedOut && (
             <>
               {' '}
-              <Link href="/signin">Sign in</Link>
+              <Link href="/">Sign in</Link>
             </>
           )}
         </p>
