@@ -2,14 +2,21 @@
 
 import { useEffect, useState } from 'react';
 import RequireAuth from '@/components/RequireAuth';
+import { Wordmark } from '@/components/Brand';
+import DashboardHome from '@/components/DashboardHome';
 import DocumentUpload from '@/components/DocumentUpload';
 
 const PANEL_ID = 'dashboard-nav';
 
+// Sidebar tabs, in display order. The first one is what shows after sign-in.
+const VIEWS = [
+  { id: 'dashboard', label: 'Dashboard' },
+  { id: 'documents', label: 'Documents' },
+];
+
 export default function DashboardPage() {
   const [open, setOpen] = useState(false);
-  // Which tab is showing. Documents is the only one so far.
-  const [view, setView] = useState('documents');
+  const [view, setView] = useState(VIEWS[0].id);
 
   useEffect(() => {
     if (!open) return;
@@ -22,18 +29,21 @@ export default function DashboardPage() {
 
   return (
     <RequireAuth>
-      <button
-        type="button"
-        className="dashboardToggle"
-        aria-label="Toggle navigation"
-        aria-expanded={open}
-        aria-controls={PANEL_ID}
-        onClick={() => setOpen((value) => !value)}
-      >
-        <span className="dashboardToggleBar" />
-        <span className="dashboardToggleBar" />
-        <span className="dashboardToggleBar" />
-      </button>
+      <header className="topbar">
+        <button
+          type="button"
+          className="dashboardToggle"
+          aria-label="Toggle navigation"
+          aria-expanded={open}
+          aria-controls={PANEL_ID}
+          onClick={() => setOpen((value) => !value)}
+        >
+          <span className="dashboardToggleBar" />
+          <span className="dashboardToggleBar" />
+          <span className="dashboardToggleBar" />
+        </button>
+        <Wordmark />
+      </header>
 
       <button
         type="button"
@@ -49,21 +59,25 @@ export default function DashboardPage() {
         inert={!open}
       >
         <nav className="dashboardNav">
-          <button
-            type="button"
-            className={`dashboardNavItem${view === 'documents' ? ' dashboardNavItemActive' : ''}`}
-            aria-current={view === 'documents' ? 'page' : undefined}
-            onClick={() => {
-              setView('documents');
-              setOpen(false);
-            }}
-          >
-            Documents
-          </button>
+          {VIEWS.map(({ id, label }) => (
+            <button
+              key={id}
+              type="button"
+              className={`dashboardNavItem${view === id ? ' dashboardNavItemActive' : ''}`}
+              aria-current={view === id ? 'page' : undefined}
+              onClick={() => {
+                setView(id);
+                setOpen(false);
+              }}
+            >
+              {label}
+            </button>
+          ))}
         </nav>
       </aside>
 
       <main className="dashboardMain">
+        {view === 'dashboard' && <DashboardHome />}
         {view === 'documents' && <DocumentUpload />}
       </main>
     </RequireAuth>

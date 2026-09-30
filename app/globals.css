@@ -1,21 +1,51 @@
+/* ---------------------------------------------------------------------------
+   Design tokens
+   Matches the clairn marketing site (src/app/globals.css there): dark only,
+   zinc neutrals, one indigo accent for primary actions and active states.
+   Keep the shared values in sync if either side changes.
+--------------------------------------------------------------------------- */
 :root {
-  --background: #fbfbfa;
-  --surface: #ffffff;
-  --border: #e4e4e1;
-  --text: #1c1c1a;
-  --text-muted: #5d5d57;
-  --accent: #2f5d50;
-  --accent-hover: #26493f;
-  --danger: #8c2f22;
-  --danger-surface: #fdf1ee;
-  --notice: #2f5d50;
-  --notice-surface: #eef4f1;
+  /* Renders form controls, scrollbars and autofill dark. */
+  color-scheme: dark;
+
+  --background: #09090b;
+  --foreground: #fafafa;
+  --surface: #0d0d0f;
+  --card: #111113;
+  --muted-foreground: #a1a1aa;
+  --accent: #1c1c20;
+  --border: #26262b;
+  --input: #2f2f35;
+  --ring: #6366f1;
+
+  /* The accent as a fill (buttons, the brand mark). */
+  --primary: #5b54ee;
+  --primary-foreground: #ffffff;
+  /* The accent as text on a dark surface; the fill is too dim for body text. */
+  --brand-ink: #a5b4fc;
+  /* Flat accent tint for active and highlighted surfaces. */
+  --brand-tint: #14142b;
+
+  /* Dashboard-only: the marketing site has no error states. */
+  --danger-ink: #fca5a5;
+  --danger-tint: #2c1719;
+  --danger-border: #5c2326;
+
+  --radius: 0.5rem;
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: ui-monospace, 'SF Mono', SFMono-Regular, 'Cascadia Mono',
+    'Roboto Mono', Menlo, Consolas, 'Liberation Mono', monospace;
+  --shadow-subtle: 0 1px 2px 0 rgb(9 9 11 / 0.04),
+    0 1px 3px 0 rgb(9 9 11 / 0.03);
+
+  --topbar-height: 4rem;
 }
 
 *,
 *::before,
 *::after {
   box-sizing: border-box;
+  border-color: var(--border);
 }
 
 html,
@@ -26,231 +56,282 @@ body {
 
 body {
   min-height: 100vh;
+  min-height: 100dvh;
   background: var(--background);
-  color: var(--text);
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica,
-    Arial, sans-serif;
+  color: var(--foreground);
+  font-family: var(--font-sans);
   font-size: 16px;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
-.page {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
+::selection {
+  background: color-mix(in oklab, var(--primary) 22%, transparent);
 }
 
-/* Header */
+:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
 
-.header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  padding: 1.25rem 2rem;
-  border-bottom: 1px solid var(--border);
+a {
+  color: var(--brand-ink);
+  text-underline-offset: 3px;
+}
+
+/* Brand */
+
+.markGlyph {
+  display: block;
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  fill: var(--primary);
 }
 
 .wordmark {
-  color: var(--text);
-  font-size: 1.125rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.625rem;
+  color: var(--primary);
+  font-size: 1.0625rem;
   font-weight: 600;
-  letter-spacing: 0.01em;
-  text-decoration: none;
-}
-
-.headerLink {
-  color: var(--text-muted);
-  font-size: 0.9375rem;
-  text-decoration: none;
-}
-
-.headerLink:hover {
-  color: var(--text);
+  letter-spacing: -0.02em;
 }
 
 /* Buttons */
 
 .button {
-  display: inline-block;
-  padding: 0.5rem 1.125rem;
-  border: none;
-  border-radius: 6px;
-  background: var(--accent);
-  color: #ffffff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 2.25rem;
+  padding: 0 1rem;
+  border: 1px solid transparent;
+  border-radius: var(--radius);
+  background: var(--primary);
+  box-shadow: var(--shadow-subtle);
+  color: var(--primary-foreground);
   font: inherit;
-  font-size: 0.9375rem;
+  font-size: 0.875rem;
   font-weight: 500;
-  line-height: 1.4;
-  text-align: center;
+  line-height: 1;
   text-decoration: none;
+  white-space: nowrap;
   cursor: pointer;
+  transition: background-color 150ms ease, border-color 150ms ease,
+    color 150ms ease;
 }
 
 .button:hover {
-  background: var(--accent-hover);
+  background: color-mix(in srgb, var(--primary) 90%, var(--background));
 }
 
 .button:disabled {
-  opacity: 0.55;
+  opacity: 0.5;
   cursor: not-allowed;
 }
 
 .button:disabled:hover {
-  background: var(--accent);
+  background: var(--primary);
 }
 
 .buttonBlock {
   width: 100%;
-  padding: 0.6875rem 1.125rem;
-  font-size: 1rem;
+  height: 2.75rem;
+  font-size: 0.9375rem;
 }
 
-/* Main */
+.buttonSecondary,
+.buttonSecondary:disabled:hover {
+  border-color: var(--border);
+  background: transparent;
+  color: var(--foreground);
+}
 
-.main {
+.buttonSecondary:hover {
+  background: var(--accent);
+}
+
+/* Sign-in and sign-up */
+
+.auth {
+  display: grid;
+  min-height: 100vh;
+  min-height: 100dvh;
+  place-items: center;
+  padding: 3rem 1.25rem;
+}
+
+.authInner {
   display: flex;
-  flex: 1;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  padding: 3rem 2rem 5rem;
+  gap: 2.5rem;
+  width: 100%;
+  max-width: 24rem;
 }
 
-.hero {
-  max-width: 40rem;
-  text-align: center;
+/* 11px per pixel of the 8x8 grid. */
+.authMark {
+  width: 88px;
+  height: 88px;
 }
-
-.hero h1 {
-  margin: 0 0 1.5rem;
-  font-size: 3rem;
-  font-weight: 600;
-  letter-spacing: -0.02em;
-  line-height: 1.1;
-}
-
-.hero p {
-  margin: 0;
-  color: var(--text-muted);
-  font-size: 1.0625rem;
-}
-
-/* Auth cards */
 
 .card {
   width: 100%;
-  max-width: 24rem;
   padding: 2rem;
   border: 1px solid var(--border);
-  border-radius: 10px;
-  background: var(--surface);
+  border-radius: calc(var(--radius) + 4px);
+  background: var(--card);
+  box-shadow: var(--shadow-subtle);
 }
 
 .card h1 {
   margin: 0 0 1.5rem;
-  font-size: 1.5rem;
+  font-size: 1.375rem;
   font-weight: 600;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.025em;
+  line-height: 1.2;
+}
+
+.cardIntro {
+  margin: -0.75rem 0 1.5rem;
+  color: var(--muted-foreground);
+  font-size: 0.9375rem;
+  line-height: 1.55;
+}
+
+.cardFooter {
+  margin: 1.5rem 0 0;
+  color: var(--muted-foreground);
+  font-size: 0.875rem;
+  text-align: center;
+}
+
+.card .buttonSecondary {
+  margin-top: 0.625rem;
 }
 
 .field {
   display: flex;
   flex-direction: column;
-  gap: 0.375rem;
+  gap: 0.5rem;
   margin-bottom: 1.125rem;
 }
 
 .field label {
   font-size: 0.875rem;
   font-weight: 500;
+  line-height: 1.2;
 }
 
 .field input {
-  padding: 0.625rem 0.75rem;
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  background: var(--surface);
-  color: var(--text);
+  height: 2.5rem;
+  padding: 0 0.75rem;
+  border: 1px solid var(--input);
+  border-radius: var(--radius);
+  background: var(--background);
+  color: var(--foreground);
+  caret-color: var(--brand-ink);
   font: inherit;
   font-size: 1rem;
+  transition: border-color 150ms ease, box-shadow 150ms ease;
 }
 
-.field input:focus {
-  border-color: var(--accent);
+.field input:hover {
+  border-color: color-mix(in srgb, var(--input) 60%, var(--muted-foreground));
+}
+
+.field input:focus-visible {
+  border-color: var(--ring);
   outline: none;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--ring) 30%, transparent);
 }
 
-.cardFooter {
-  margin: 1.5rem 0 0;
-  color: var(--text-muted);
+/* Chrome paints autofilled fields with its own light background. */
+.field input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 1000px var(--background) inset;
+  -webkit-text-fill-color: var(--foreground);
+}
+
+.error,
+.notice {
+  margin: 1.25rem 0 0;
+  padding: 0.625rem 0.75rem;
+  border: 1px solid;
+  border-radius: var(--radius);
   font-size: 0.875rem;
-  text-align: center;
+  line-height: 1.5;
 }
 
-.cardFooter a {
-  color: var(--accent);
+.error {
+  border-color: var(--danger-border);
+  background: var(--danger-tint);
+  color: var(--danger-ink);
 }
 
-@media (max-width: 600px) {
-  .header {
-    padding: 1rem 1.25rem;
-  }
-
-  .main {
-    padding: 2.5rem 1.25rem 3.5rem;
-  }
-
-  .hero h1 {
-    font-size: 2.25rem;
-  }
-
-  .card {
-    padding: 1.5rem;
-  }
+.error a {
+  color: inherit;
+  font-weight: 500;
 }
 
-/* Dashboard */
+.notice {
+  border-color: color-mix(in srgb, var(--primary) 35%, var(--brand-tint));
+  background: var(--brand-tint);
+  color: var(--brand-ink);
+}
 
-.dashboardMain {
-  min-height: 100vh;
-  /* Top padding clears the fixed nav toggle. */
-  padding: 4.5rem 2rem 4rem;
+/* Dashboard shell */
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  height: var(--topbar-height);
+  padding: 0 1rem;
+  border-bottom: 1px solid var(--border);
+  background: var(--background);
 }
 
 .dashboardToggle {
-  position: fixed;
-  top: 1rem;
-  left: 1rem;
-  z-index: 30;
   display: flex;
   flex-direction: column;
+  flex-shrink: 0;
   gap: 4px;
   justify-content: center;
   width: 2.5rem;
   height: 2.5rem;
-  padding: 0.625rem;
+  padding: 0.6875rem;
   border: 1px solid var(--border);
-  border-radius: 6px;
-  background: var(--surface);
+  border-radius: var(--radius);
+  background: transparent;
   cursor: pointer;
+  transition: background-color 150ms ease;
+}
+
+.dashboardToggle:hover {
+  background: var(--accent);
 }
 
 .dashboardToggleBar {
   display: block;
   height: 1.5px;
   border-radius: 1px;
-  background: var(--text);
+  background: var(--foreground);
 }
 
 .dashboardBackdrop {
   position: fixed;
-  inset: 0;
+  inset: var(--topbar-height) 0 0;
   z-index: 10;
   padding: 0;
   border: none;
-  background: rgba(28, 28, 26, 0.35);
+  background: rgb(0 0 0 / 0.55);
   opacity: 0;
   pointer-events: none;
   cursor: default;
@@ -264,13 +345,13 @@ body {
 
 .dashboardPanel {
   position: fixed;
-  top: 0;
+  top: var(--topbar-height);
   bottom: 0;
   left: 0;
   z-index: 20;
   width: 15rem;
   max-width: 80vw;
-  padding: 4.5rem 0.75rem 1rem;
+  padding: 1rem 0.75rem;
   border-right: 1px solid var(--border);
   background: var(--surface);
   transform: translateX(-100%);
@@ -284,108 +365,118 @@ body {
 .dashboardNav {
   display: flex;
   flex-direction: column;
+  gap: 0.125rem;
 }
 
 .dashboardNavItem {
   padding: 0.5rem 0.75rem;
   border: none;
-  border-radius: 6px;
+  border-radius: var(--radius);
   background: none;
-  color: var(--text);
+  color: var(--muted-foreground);
   font: inherit;
   font-size: 0.9375rem;
   font-weight: 500;
   text-align: left;
   cursor: pointer;
+  transition: background-color 150ms ease, color 150ms ease;
 }
 
 .dashboardNavItem:hover {
-  background: var(--background);
+  background: var(--accent);
+  color: var(--foreground);
 }
 
-.dashboardNavItemActive {
-  background: var(--notice-surface);
-  color: var(--accent);
-}
-
+.dashboardNavItemActive,
 .dashboardNavItemActive:hover {
-  background: var(--notice-surface);
+  background: var(--brand-tint);
+  color: var(--brand-ink);
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .dashboardPanel,
-  .dashboardBackdrop {
-    transition: none;
-  }
+.dashboardMain {
+  padding: 2.5rem 2rem 4rem;
 }
 
-/* Auth */
-
-.headerActions {
-  display: flex;
-  align-items: center;
-  gap: 1.25rem;
-}
-
-.buttonSecondary {
-  border: 1px solid var(--border);
-  background: none;
-  color: var(--text-muted);
-}
-
-.buttonSecondary:hover {
-  background: var(--background);
-  color: var(--text);
-}
-
-.card .buttonSecondary {
-  margin-top: 0.625rem;
-}
-
-.cardIntro {
-  margin: -1rem 0 1.5rem;
-  color: var(--text-muted);
-  font-size: 0.9375rem;
-}
-
-.error,
-.notice {
-  margin: 1.25rem 0 0;
-  padding: 0.625rem 0.75rem;
-  border-radius: 6px;
-  font-size: 0.875rem;
-  line-height: 1.5;
-}
-
-.error {
-  background: var(--danger-surface);
-  color: var(--danger);
-}
-
-.notice {
-  background: var(--notice-surface);
-  color: var(--notice);
-}
-
-/* Documents */
-
-.documents {
-  max-width: 40rem;
+/* One width for every view, so switching tabs doesn't move the heading. */
+.view {
+  max-width: 52rem;
   margin: 0 auto;
 }
 
-.documents h1 {
+.view h1 {
   margin: 0 0 0.5rem;
-  font-size: 1.5rem;
+  font-size: 1.75rem;
   font-weight: 600;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.03em;
+  line-height: 1.2;
 }
 
-.documentsIntro {
-  margin: 0 0 1.5rem;
-  color: var(--text-muted);
+.viewIntro {
+  max-width: 65ch;
+  margin: 0 0 1.75rem;
+  color: var(--muted-foreground);
   font-size: 0.9375rem;
 }
+
+/* Dashboard view */
+
+.dashboardGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+  gap: 1.25rem;
+  margin-top: 1.75rem;
+}
+
+.panel {
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem;
+  border: 1px solid var(--border);
+  border-radius: calc(var(--radius) + 4px);
+  background: var(--card);
+  box-shadow: var(--shadow-subtle);
+}
+
+.panelTitle {
+  margin: 0;
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.4;
+}
+
+.heroFigure {
+  margin: 1.25rem 0 0;
+  font-size: 3rem;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+
+.panelHint {
+  margin: auto 0 0;
+  padding-top: 1rem;
+  color: var(--muted-foreground);
+  font-size: 0.8125rem;
+  line-height: 1.5;
+}
+
+.emptyState {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  min-height: 8rem;
+  margin: 1rem 0 0;
+  padding: 1.5rem;
+  border: 1px dashed var(--input);
+  border-radius: var(--radius);
+  color: var(--muted-foreground);
+  font-size: 0.875rem;
+  text-align: center;
+}
+
+/* Documents view */
 
 /* Hidden visually but still reachable by keyboard and screen readers. */
 .srOnly {
@@ -406,23 +497,24 @@ body {
   flex-direction: column;
   align-items: center;
   gap: 0.25rem;
-  padding: 2.25rem 1.5rem;
-  border: 1.5px dashed color-mix(in srgb, var(--text-muted) 45%, var(--border));
-  border-radius: 10px;
-  background: var(--surface);
+  padding: 2.5rem 1.5rem;
+  border: 1.5px dashed var(--input);
+  border-radius: calc(var(--radius) + 4px);
+  background: var(--card);
   text-align: center;
   cursor: pointer;
+  transition: background-color 150ms ease, border-color 150ms ease;
 }
 
 .dropzone:hover,
 .dropzoneActive {
-  border-color: var(--accent);
-  background: var(--notice-surface);
+  border-color: var(--primary);
+  background: var(--brand-tint);
 }
 
 .dropzone:focus-within {
-  border-color: var(--accent);
-  outline: 2px solid var(--accent);
+  border-color: var(--primary);
+  outline: 2px solid var(--ring);
   outline-offset: 2px;
 }
 
@@ -438,8 +530,9 @@ body {
 }
 
 .dropzoneHint {
-  color: var(--text-muted);
-  font-size: 0.875rem;
+  color: var(--muted-foreground);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
 }
 
 .uploadActions {
@@ -448,24 +541,20 @@ body {
 
 .uploadStatus {
   margin: 1.25rem 0 0;
-  color: var(--text-muted);
+  color: var(--muted-foreground);
   font-size: 0.875rem;
-}
-
-.error a {
-  color: inherit;
-  font-weight: 500;
 }
 
 .uploadListHeading {
   margin: 2.5rem 0 0.75rem;
   font-size: 1rem;
   font-weight: 600;
+  letter-spacing: -0.01em;
 }
 
 .uploadListEmpty {
   margin: 0;
-  color: var(--text-muted);
+  color: var(--muted-foreground);
   font-size: 0.875rem;
 }
 
@@ -473,8 +562,8 @@ body {
   margin: 0;
   padding: 0;
   border: 1px solid var(--border);
-  border-radius: 10px;
-  background: var(--surface);
+  border-radius: calc(var(--radius) + 4px);
+  background: var(--card);
   list-style: none;
 }
 
@@ -497,12 +586,42 @@ body {
 
 .uploadListMeta {
   flex-shrink: 0;
-  color: var(--text-muted);
-  font-size: 0.875rem;
+  color: var(--muted-foreground);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  line-height: 1.8;
+}
+
+@media (max-width: 720px) {
+  .dashboardGrid {
+    grid-template-columns: minmax(0, 1fr);
+  }
 }
 
 @media (max-width: 600px) {
+  .card {
+    padding: 1.5rem;
+  }
+
+  .authInner {
+    gap: 2rem;
+  }
+
+  /* Still a multiple of 8, so the pixels stay sharp. */
+  .authMark {
+    width: 72px;
+    height: 72px;
+  }
+
   .dashboardMain {
-    padding: 4.5rem 1.25rem 3rem;
+    padding: 2rem 1.25rem 3rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    transition-duration: 0.01ms !important;
   }
 }

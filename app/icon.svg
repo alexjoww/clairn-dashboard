@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <!-- Copy of src/app/icon.svg in the clairn marketing site. The pixel grid
+       lives in lib/mark.js; if you change it, regenerate the path below with
+       markPath(4) and update the marketing site's copy too. -->
+  <path fill="#5B54EE" d="M8 0h16v4h-16zM4 4h24v4h-24zM0 8h32v4h-32zM0 12h8v4h-8zM12 12h8v4h-8zM24 12h8v4h-8zM0 16h32v4h-32zM0 20h12v4h-12zM20 20h12v4h-12zM4 24h24v4h-24zM0 28h8v4h-8zM24 28h8v4h-8z"/>
+</svg>
