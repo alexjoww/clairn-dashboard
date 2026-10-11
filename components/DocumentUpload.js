@@ -10,6 +10,7 @@ import {
   uploadToS3,
   validateFile,
 } from '@/lib/api';
+import DocumentList from '@/components/DocumentList';
 
 export default function DocumentUpload() {
   const inputRef = useRef(null);
@@ -18,8 +19,8 @@ export default function DocumentUpload() {
   const [message, setMessage] = useState('');
   const [signedOut, setSignedOut] = useState(false);
   const [dragging, setDragging] = useState(false);
-  // Only what was uploaded in this browser tab. Lost on reload.
-  const [uploads, setUploads] = useState([]);
+  // Bumped after each upload so DocumentList reloads.
+  const [uploadCount, setUploadCount] = useState(0);
 
   const uploading = status === 'uploading';
 
@@ -77,15 +78,7 @@ export default function DocumentUpload() {
       // Presigned POSTs expire after 5 minutes, so request one only now.
       const presigned = await requestUpload(file);
       await uploadToS3(presigned, file);
-      setUploads((current) => [
-        {
-          docId: presigned.docId,
-          filename: file.name,
-          sizeBytes: file.size,
-          uploadedAt: new Date(),
-        },
-        ...current,
-      ]);
+      setUploadCount((count) => count + 1);
       setStatus('success');
       setMessage(`${file.name} uploaded.`);
       setFile(null);
@@ -163,25 +156,7 @@ export default function DocumentUpload() {
         </p>
       )}
 
-      <h2 className="uploadListHeading">Uploaded this session</h2>
-      {uploads.length === 0 ? (
-        <p className="uploadListEmpty">Nothing uploaded yet.</p>
-      ) : (
-        <ul className="uploadList">
-          {uploads.map((upload) => (
-            <li key={upload.docId} className="uploadListItem">
-              <span className="uploadListName">{upload.filename}</span>
-              <span className="uploadListMeta">
-                {formatBytes(upload.sizeBytes)} ·{' '}
-                {upload.uploadedAt.toLocaleTimeString([], {
-                  hour: 'numeric',
-                  minute: '2-digit',
-                })}
-              </span>
-            </li>
-          ))}
-        </ul>
-      )}
+      <DocumentList refreshKey={uploadCount} />
     </section>
   );
 }

@@ -1,10 +1,12 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import RequireAuth from '@/components/RequireAuth';
 import { Wordmark } from '@/components/Brand';
 import DashboardHome from '@/components/DashboardHome';
 import DocumentUpload from '@/components/DocumentUpload';
+import { logout } from '@/lib/auth';
 
 const PANEL_ID = 'dashboard-nav';
 
@@ -15,8 +17,11 @@ const VIEWS = [
 ];
 
 export default function DashboardPage() {
+  const router = useRouter();
   const [open, setOpen] = useState(false);
   const [view, setView] = useState(VIEWS[0].id);
+  const [signingOut, setSigningOut] = useState(false);
+  const [signOutError, setSignOutError] = useState('');
 
   useEffect(() => {
     if (!open) return;
@@ -26,6 +31,20 @@ export default function DashboardPage() {
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [open]);
+
+  async function handleSignOut() {
+    setSigningOut(true);
+    setSignOutError('');
+    try {
+      await logout();
+      // Sign-in lives at /. replace() so Back doesn't return to the dashboard.
+      router.replace('/');
+    } catch (err) {
+      // Stay put: redirecting would look signed out while tokens may remain.
+      setSignOutError(err.message || "Couldn't sign out. Try again.");
+      setSigningOut(false);
+    }
+  }
 
   return (
     <RequireAuth>
@@ -74,6 +93,22 @@ export default function DashboardPage() {
             </button>
           ))}
         </nav>
+
+        <div className="dashboardPanelFooter">
+          <button
+            type="button"
+            className="dashboardSignOut"
+            onClick={handleSignOut}
+            disabled={signingOut}
+          >
+            {signingOut ? 'Signing out…' : 'Sign out'}
+          </button>
+          {signOutError && (
+            <p className="error" role="alert">
+              {signOutError}
+            </p>
+          )}
+        </div>
       </aside>
 
       <main className="dashboardMain">

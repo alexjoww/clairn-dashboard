@@ -154,6 +154,12 @@ a {
   background: var(--accent);
 }
 
+.buttonSmall {
+  height: 1.875rem;
+  padding: 0 0.75rem;
+  font-size: 0.8125rem;
+}
+
 /* Sign-in and sign-up */
 
 .auth {
@@ -349,6 +355,8 @@ a {
   bottom: 0;
   left: 0;
   z-index: 20;
+  display: flex;
+  flex-direction: column;
   width: 15rem;
   max-width: 80vw;
   padding: 1rem 0.75rem;
@@ -368,7 +376,8 @@ a {
   gap: 0.125rem;
 }
 
-.dashboardNavItem {
+.dashboardNavItem,
+.dashboardSignOut {
   padding: 0.5rem 0.75rem;
   border: none;
   border-radius: var(--radius);
@@ -382,7 +391,8 @@ a {
   transition: background-color 150ms ease, color 150ms ease;
 }
 
-.dashboardNavItem:hover {
+.dashboardNavItem:hover,
+.dashboardSignOut:hover {
   background: var(--accent);
   color: var(--foreground);
 }
@@ -391,6 +401,27 @@ a {
 .dashboardNavItemActive:hover {
   background: var(--brand-tint);
   color: var(--brand-ink);
+}
+
+/* Pinned to the bottom of the panel by margin-top: auto. */
+.dashboardPanelFooter {
+  display: flex;
+  flex-direction: column;
+  margin-top: auto;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--border);
+}
+
+.dashboardPanelFooter .error {
+  margin-top: 0.75rem;
+}
+
+.dashboardSignOut:disabled,
+.dashboardSignOut:disabled:hover {
+  background: none;
+  color: var(--muted-foreground);
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 .dashboardMain {
@@ -545,20 +576,33 @@ a {
   font-size: 0.875rem;
 }
 
-.uploadListHeading {
+.documentListHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
   margin: 2.5rem 0 0.75rem;
+}
+
+.documentListHeading {
+  margin: 0;
   font-size: 1rem;
   font-weight: 600;
   letter-spacing: -0.01em;
 }
 
-.uploadListEmpty {
+/* Sits between the header and the list, so the space goes below it. */
+.documentListError {
+  margin: 0 0 0.75rem;
+}
+
+.documentListMessage {
   margin: 0;
   color: var(--muted-foreground);
   font-size: 0.875rem;
 }
 
-.uploadList {
+.documentList {
   margin: 0;
   padding: 0;
   border: 1px solid var(--border);
@@ -567,29 +611,59 @@ a {
   list-style: none;
 }
 
-.uploadListItem {
+.documentListItem {
   display: flex;
+  align-items: center;
   justify-content: space-between;
-  gap: 1rem;
+  gap: 0.5rem 1rem;
   padding: 0.75rem 1rem;
   font-size: 0.9375rem;
 }
 
-.uploadListItem + .uploadListItem {
+.documentListItem + .documentListItem {
   border-top: 1px solid var(--border);
 }
 
-.uploadListName {
+.documentListInfo {
+  display: flex;
+  flex-direction: column;
   min-width: 0;
+}
+
+.documentListName {
   overflow-wrap: anywhere;
 }
 
-.uploadListMeta {
-  flex-shrink: 0;
+.documentListMeta {
   color: var(--muted-foreground);
   font-family: var(--font-mono);
   font-size: 0.75rem;
   line-height: 1.8;
+}
+
+.documentListActions {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.documentListStatus {
+  padding: 0.125rem 0.5rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  color: var(--muted-foreground);
+  font-size: 0.75rem;
+  font-weight: 500;
+  line-height: 1.5;
+  white-space: nowrap;
+}
+
+/* Waiting on the S3 event; usually clears within seconds of an upload. */
+.documentListStatusPending {
+  border-color: color-mix(in srgb, var(--primary) 35%, var(--brand-tint));
+  background: var(--brand-tint);
+  color: var(--brand-ink);
 }
 
 @media (max-width: 720px) {
@@ -615,6 +689,11 @@ a {
 
   .dashboardMain {
     padding: 2rem 1.25rem 3rem;
+  }
+
+  /* Status and Delete drop below a filename too long to share the line. */
+  .documentListItem {
+    flex-wrap: wrap;
   }
 }
 
