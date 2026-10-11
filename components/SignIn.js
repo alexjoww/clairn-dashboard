@@ -26,7 +26,8 @@ export default function SignIn() {
   const [error, setError] = useState('');
   const [busy, setBusy] = useState(false);
 
-  async function handleSignIn() {
+  async function handleSignIn(e) {
+    e.preventDefault();
     setBusy(true);
     setError('');
     try {
@@ -59,7 +60,8 @@ export default function SignIn() {
     }
   }
 
-  async function handleNewPassword() {
+  async function handleNewPassword(e) {
+    e.preventDefault();
     if (newPassword !== confirmPassword) {
       setError('Passwords do not match.');
       return;
@@ -86,7 +88,7 @@ export default function SignIn() {
   return (
     <AuthLayout>
       {stage === 'credentials' ? (
-        <>
+        <form onSubmit={handleSignIn}>
           <h1>Sign in to Clairn</h1>
           <div className="field">
             <label htmlFor="email">Email</label>
@@ -109,8 +111,8 @@ export default function SignIn() {
             />
           </div>
           <button
+            type="submit"
             className="button buttonBlock"
-            onClick={handleSignIn}
             disabled={busy}
           >
             {busy ? 'Signing in…' : 'Sign in'}
@@ -118,9 +120,9 @@ export default function SignIn() {
           <p className="cardFooter">
             No account? <Link href="/signup">Create one</Link>
           </p>
-        </>
+        </form>
       ) : (
-        <>
+        <form onSubmit={handleNewPassword}>
           <h1>Choose a password</h1>
           <p className="cardIntro">
             Your account was created with a temporary password. Set a
@@ -162,13 +164,13 @@ export default function SignIn() {
             />
           </div>
           <button
+            type="submit"
             className="button buttonBlock"
-            onClick={handleNewPassword}
             disabled={busy}
           >
             {busy ? 'Saving…' : 'Set password and sign in'}
           </button>
-        </>
+        </form>
       )}
       {error && (
         <p className="error" role="alert">
